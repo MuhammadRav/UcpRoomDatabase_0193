@@ -32,7 +32,7 @@ import com.example.week11.ui.viewModel.dosenViewModel.DosenEvent
 import com.example.week11.ui.viewModel.dosenViewModel.DosenUIState
 import com.example.week11.ui.viewModel.dosenViewModel.DosenViewModel
 import com.example.week11.ui.viewModel.dosenViewModel.FormErrorState
-import com.example.week11.ui.viewModel.dosenViewModel.PenyediaViewModel
+import com.example.week11.ui.viewModel.dosenViewModel.PenyediaDosenViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -64,12 +64,13 @@ fun InsertBodyDosen(
 object DestinasiInsert : AlamatNavigasi {
     override val route: String = "insert_dosen"
 }
+
 @Composable
 fun InsertDosenView(
     onBack: () -> Unit,
     onNavigate: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DosenViewModel = viewModel(factory = PenyediaViewModel.Factory) // inisialisasi view model
+    viewModel: DosenViewModel = viewModel(factory = PenyediaDosenViewModel.Factory) // inisialisasi view model
 ){
     val uiState = viewModel.uiState // Ambil UI state dari view model
     val snackbarHostState =  remember { SnackbarHostState() } // Snackbar state

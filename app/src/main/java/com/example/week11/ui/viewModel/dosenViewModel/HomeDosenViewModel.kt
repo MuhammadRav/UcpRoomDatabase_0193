@@ -1,4 +1,4 @@
-package com.example.week11.ui.viewModel
+package com.example.week11.ui.viewModel.dosenViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

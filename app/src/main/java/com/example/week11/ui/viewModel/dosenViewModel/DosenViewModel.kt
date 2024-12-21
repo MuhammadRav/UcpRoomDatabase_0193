@@ -1,8 +1,13 @@
 package com.example.week11.ui.viewModel.dosenViewModel
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.week11.data.entity.Dosen
 import com.example.week11.repository.RepoDosen
+import kotlinx.coroutines.launch
 
 data class DosenUIState(
     val dosenEvent: DosenEvent = DosenEvent(),

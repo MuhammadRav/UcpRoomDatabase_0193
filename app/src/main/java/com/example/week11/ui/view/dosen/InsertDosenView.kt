@@ -25,8 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.week11.ui.costumwidget.CstTopAppBar
 import com.example.week11.ui.navigation.AlamatNavigasi
+import com.example.week11.ui.viewModel.dosenViewModel.DosenEvent
+import com.example.week11.ui.viewModel.dosenViewModel.DosenViewModel
+import com.example.week11.ui.viewModel.dosenViewModel.FormErrorState
+import com.example.week11.ui.viewModel.dosenViewModel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -138,10 +143,10 @@ fun FormDosen(
             modifier = Modifier.fillMaxWidth(),
             value = dosenEvent.nidn,
             onValueChange = {
-                onValueChange(dosenEvent.copy(nim = it))
+                onValueChange(dosenEvent.copy(nidn = it))
             },
             label = { Text("NIDN") },
-            isError = errorState.nim != null,
+            isError = errorState.nidn != null,
             placeholder = { Text("Masukkan NIDN") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )

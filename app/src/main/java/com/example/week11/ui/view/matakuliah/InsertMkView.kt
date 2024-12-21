@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -29,9 +30,37 @@ import com.example.week11.ui.costumwidget.CstTopAppBar
 import com.example.week11.ui.navigation.AlamatNavigasi
 import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahEvent
 import com.example.week11.ui.viewModel.matakuliahViewModel.FormErrorState
+import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahUIState
 import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahViewModel
 import com.example.week11.ui.viewModel.matakuliahViewModel.PenyediaMatakuliahViewModel
 import kotlinx.coroutines.launch
+
+@Composable
+fun InsertBodyMatakuliah(
+    modifier: Modifier = Modifier,
+    onValueChange: (MatakuliahEvent) -> Unit,
+    uiState: MatakuliahUIState,
+    onClick: () -> Unit
+){
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FormMatakuliah(
+            matakuliahEvent = uiState.matakuliahEvent,
+            onValueChange = onValueChange,
+            errorState = uiState.isEntryValid,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Simpan")
+        }
+    }
+}
 
 object DestinasiInsert : AlamatNavigasi {
     override val route: String = "insert_matakuliah"
@@ -70,6 +99,19 @@ fun InsertMatakuliahView(
                 onBack = onBack,
                 showBackButton = true,
                 judul = "Tambah Matakuliah"
+            )
+            // isi body
+            InsertBodyMatakuliah(
+                uiState = uiState,
+                onValueChange = { updateEvent ->
+                    viewModel.updateState(updateEvent) // update state di view model
+                },
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.saveData() // simpan data
+                    }
+                    onNavigate()
+                }
             )
         }
     }

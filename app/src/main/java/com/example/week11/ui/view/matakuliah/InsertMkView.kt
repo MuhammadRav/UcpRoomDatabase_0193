@@ -4,20 +4,76 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.week11.ui.costumwidget.CstTopAppBar
+import com.example.week11.ui.navigation.AlamatNavigasi
 import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahEvent
 import com.example.week11.ui.viewModel.matakuliahViewModel.FormErrorState
+import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahViewModel
+import com.example.week11.ui.viewModel.matakuliahViewModel.PenyediaMatakuliahViewModel
+import kotlinx.coroutines.launch
+
+object DestinasiInsert : AlamatNavigasi {
+    override val route: String = "insert_matakuliah"
+}
+
+@Composable
+fun InsertMatakuliahView(
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: MatakuliahViewModel = viewModel(factory = PenyediaMatakuliahViewModel.Factory) // inisialisasi view model
+){
+    val uiState = viewModel.uiState // Ambil UI state dari view model
+    val snackbarHostState =  remember { SnackbarHostState() } // Snackbar state
+    val coroutineScope = rememberCoroutineScope()
+    // Observasi perubahan snackBarMessage
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message) // tampilkan snackbar
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+    Scaffold (
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) } // Tampilkan Snackbar di Scaffold
+    ){ padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            CstTopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah Matakuliah"
+            )
+        }
+    }
+}
 
 @Composable
 fun FormMatakuliah(

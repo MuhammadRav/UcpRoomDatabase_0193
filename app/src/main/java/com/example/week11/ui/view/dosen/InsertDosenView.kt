@@ -97,7 +97,7 @@ fun InsertDosenView(
             CstTopAppBar(
                 onBack = onBack,
                 showBackButton = true,
-                judul = "Tambah Mahasiswa"
+                judul = "Tambah Dosen"
             )
             // isi body
             InsertBodyDosen(

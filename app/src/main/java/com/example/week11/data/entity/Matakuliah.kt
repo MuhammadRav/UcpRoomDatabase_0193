@@ -12,5 +12,4 @@ data class Matakuliah(
     val semester: String,
     val jenisMk: String,
     val dosenPengampu: String,
-
     )

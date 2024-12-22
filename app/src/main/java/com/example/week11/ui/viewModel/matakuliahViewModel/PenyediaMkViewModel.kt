@@ -1,6 +1,7 @@
 package com.example.week11.ui.viewModel.matakuliahViewModel
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -11,6 +12,23 @@ object PenyediaMatakuliahViewModel{
         initializer {
             MatakuliahViewModel(
                 KrsApp().containerApp.repoMatakuliah
+            )
+        }
+        initializer {
+            HomeMatakuliahViewModel(
+                krsApp().containerApp.repoMatakuliah
+            )
+        }
+        initializer {
+            DetailMatakuliahViewModel(
+                createSavedStateHandle(),
+                krsApp().containerApp.repoMatakuliah
+            )
+        }
+        initializer {
+            UpdateMatakuliahViewModel(
+                createSavedStateHandle(),
+                krsApp().containerApp.repoMatakuliah
             )
         }
     }

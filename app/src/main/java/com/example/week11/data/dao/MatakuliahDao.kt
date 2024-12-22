@@ -19,7 +19,7 @@ interface MatakuliahDao {
     @Update
     suspend fun updateMatakuliah(matakuliah: Matakuliah)
 
-    @Query("SELECT * FROM dosen ORDER BY nama ASC")
+    @Query("SELECT * FROM matakuliah ORDER BY namaMk ASC")
     fun getAllMatakuliah(): Flow<List<Matakuliah>>
 
     @Query("SELECT * FROM matakuliah WHERE kodeMk = :kodeMk")

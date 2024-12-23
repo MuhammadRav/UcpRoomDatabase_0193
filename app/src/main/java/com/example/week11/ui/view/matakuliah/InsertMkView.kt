@@ -1,5 +1,6 @@
 package com.example.week11.ui.view.matakuliah
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +27,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.week11.R
 import com.example.week11.data.DosenDropDown
 import com.example.week11.data.entity.Dosen
 import com.example.week11.ui.costumwidget.CstTopAppBar
@@ -64,8 +68,15 @@ fun InsertMatakuliahView(
     }
     Scaffold (
         modifier = modifier,
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ){ padding ->
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+    )
+    { padding ->
+        Image(
+            painter = painterResource(id = R.drawable.pp),
+            contentDescription = "Background",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()

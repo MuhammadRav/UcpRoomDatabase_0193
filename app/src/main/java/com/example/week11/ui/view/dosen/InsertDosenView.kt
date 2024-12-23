@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -41,23 +43,35 @@ fun InsertBodyDosen(
     onValueChange: (DosenEvent) -> Unit,
     uiState: DosenUIState,
     onClick: () -> Unit
-){
+) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        FormDosen(
-            dosenEvent = uiState.dosenEvent,
-            onValueChange = onValueChange,
-            errorState = uiState.isEntryValid,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            elevation = CardDefaults.cardElevation(8.dp)
         ) {
-            Text("Simpan")
+            Column(modifier = Modifier.padding(16.dp)) {
+                FormDosen(
+                    dosenEvent = uiState.dosenEvent,
+                    onValueChange = onValueChange,
+                    errorState = uiState.isEntryValid,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = onClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Simpan")
+                }
+            }
         }
     }
 }
@@ -70,24 +84,25 @@ fun InsertDosenView(
     onBack: () -> Unit,
     onNavigate: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DosenViewModel = viewModel(factory = PenyediaDosenViewModel.Factory) // inisialisasi view model
-){
-    val uiState = viewModel.uiState // Ambil UI state dari view model
-    val snackbarHostState =  remember { SnackbarHostState() } // Snackbar state
+    viewModel: DosenViewModel = viewModel(factory = PenyediaDosenViewModel.Factory)
+) {
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    // Observasi perubahan snackBarMessage
+
     LaunchedEffect(uiState.snackBarMessage) {
         uiState.snackBarMessage?.let { message ->
             coroutineScope.launch {
-                snackbarHostState.showSnackbar(message) // tampilkan snackbar
+                snackbarHostState.showSnackbar(message)
                 viewModel.resetSnackBarMessage()
             }
         }
     }
-    Scaffold (
+
+    Scaffold(
         modifier = modifier,
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) } // Tampilkan Snackbar di Scaffold
-    ){ padding ->
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -99,15 +114,15 @@ fun InsertDosenView(
                 showBackButton = true,
                 judul = "Tambah Dosen"
             )
-            // isi body
+            Spacer(modifier = Modifier.height(16.dp))
             InsertBodyDosen(
                 uiState = uiState,
                 onValueChange = { updateEvent ->
-                    viewModel.updateState(updateEvent) // update state di view model
+                    viewModel.updateState(updateEvent)
                 },
                 onClick = {
                     coroutineScope.launch {
-                        viewModel.saveData() // simpan data
+                        viewModel.saveData()
                     }
                     onNavigate()
                 }
@@ -115,64 +130,93 @@ fun InsertDosenView(
         }
     }
 }
+
 @Composable
 fun FormDosen(
     dosenEvent: DosenEvent = DosenEvent(),
     onValueChange: (DosenEvent) -> Unit,
     errorState: FormErrorState = FormErrorState(),
     modifier: Modifier = Modifier
-){
+) {
     val jenisKelamin = listOf("Laki-Laki", "Perempuan")
 
-    Column (
+    Column(
         modifier = modifier.fillMaxWidth()
-    ){
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = dosenEvent.nidn,
-            onValueChange = {
-                onValueChange(dosenEvent.copy(nidn = it))
-            },
-            label = { Text("NIDN") },
-            isError = errorState.nidn != null,
-            placeholder = { Text("Masukkan NIDN") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
-        Text(
-            text = errorState.nidn ?: "",
-            color = Color.Red
-        )
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = dosenEvent.nama,
-            onValueChange = {
-                onValueChange(dosenEvent.copy(nama = it))
-            },
-            label = { Text("Nama") },
-            isError = errorState.nama != null,
-            placeholder = { Text("Masukkan Nama") },
-        )
-        Text(
-            text = errorState.nama ?: "",
-            color = Color.Red
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Jenis Kelamin")
-        Row (
-            modifier = Modifier.fillMaxWidth()
-        ){
-            jenisKelamin.forEach { jk ->
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ){
-                    RadioButton(
-                        selected = dosenEvent.jenisKelamin == jk,
-                        onClick = {
-                            onValueChange(dosenEvent.copy(jenisKelamin = jk))
-                        },
-                    )
-                    Text(text = jk,)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            elevation = CardDefaults.cardElevation(4.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = dosenEvent.nidn,
+                    onValueChange = {
+                        onValueChange(dosenEvent.copy(nidn = it))
+                    },
+                    label = { Text("NIDN") },
+                    isError = errorState.nidn != null,
+                    placeholder = { Text("Masukkan NIDN") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+                Text(
+                    text = errorState.nidn ?: "",
+                    color = Color.Red
+                )
+            }
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            elevation = CardDefaults.cardElevation(4.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = dosenEvent.nama,
+                    onValueChange = {
+                        onValueChange(dosenEvent.copy(nama = it))
+                    },
+                    label = { Text("Nama") },
+                    isError = errorState.nama != null,
+                    placeholder = { Text("Masukkan Nama") },
+                )
+                Text(
+                    text = errorState.nama ?: "",
+                    color = Color.Red
+                )
+            }
+        }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            elevation = CardDefaults.cardElevation(4.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(text = "Jenis Kelamin")
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    jenisKelamin.forEach { jk ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            RadioButton(
+                                selected = dosenEvent.jenisKelamin == jk,
+                                onClick = {
+                                    onValueChange(dosenEvent.copy(jenisKelamin = jk))
+                                },
+                            )
+                            Text(text = jk)
+                        }
+                    }
                 }
             }
         }

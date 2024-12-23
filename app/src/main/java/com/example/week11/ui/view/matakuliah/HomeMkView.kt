@@ -53,7 +53,7 @@ fun HomeMatakuliahView(
     Scaffold (
         topBar = {
             CstTopAppBar(
-                judul = "Daftar Matakuliah",
+                judul = "Buat Matakuliah",
                 showBackButton = false,
                 onBack = { },
                 modifier = modifier
@@ -182,7 +182,7 @@ fun CardMK(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
+                Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.kodeMk,
@@ -239,7 +239,7 @@ fun CardMK(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Icon(imageVector = Icons.Filled.Home, contentDescription = "")
+                Icon(imageVector = Icons.Filled.Person, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.dosenPengampu,

@@ -35,35 +35,8 @@ import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahViewModel
 import com.example.week11.ui.viewModel.matakuliahViewModel.PenyediaMatakuliahViewModel
 import kotlinx.coroutines.launch
 
-@Composable
-fun InsertBodyMatakuliah(
-    modifier: Modifier = Modifier,
-    onValueChange: (MatakuliahEvent) -> Unit,
-    uiState: MatakuliahUIState,
-    onClick: () -> Unit
-){
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        FormMatakuliah(
-            matakuliahEvent = uiState.matakuliahEvent,
-            onValueChange = onValueChange,
-            errorState = uiState.isEntryValid,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text("Simpan")
-        }
-    }
-}
-
 object DestinasiInsert : AlamatNavigasi {
-    override val route: String = "insert_matakuliah"
+    override val route: String = "insert_mk"
 }
 
 @Composable
@@ -118,13 +91,40 @@ fun InsertMatakuliahView(
 }
 
 @Composable
+fun InsertBodyMatakuliah(
+    modifier: Modifier = Modifier,
+    onValueChange: (MatakuliahEvent) -> Unit,
+    uiState: MatakuliahUIState,
+    onClick: () -> Unit
+){
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FormMatakuliah(
+            matakuliahEvent = uiState.matakuliahEvent,
+            onValueChange = onValueChange,
+            errorState = uiState.isEntryValid,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Simpan")
+        }
+    }
+}
+
+@Composable
 fun FormMatakuliah(
     matakuliahEvent: MatakuliahEvent = MatakuliahEvent(),
     onValueChange: (MatakuliahEvent) -> Unit,
     errorState: FormErrorState = FormErrorState(),
     modifier: Modifier = Modifier
 ){
-    val jenisMk = listOf("Pemrograman", "Basisdata", "Jaringan", "UI/UX")
+    val jenisMk = listOf("Wajib", "Peminatan")
 
     Column (
         modifier = modifier.fillMaxWidth()
@@ -168,6 +168,10 @@ fun FormMatakuliah(
             placeholder = { Text("Masukkan SKS") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
+        Text(
+            text = errorState.sks ?: "",
+            color = Color.Red
+        )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = matakuliahEvent.semester,
@@ -177,27 +181,44 @@ fun FormMatakuliah(
             label = { Text("Semester") },
             isError = errorState.semester != null,
             placeholder = { Text("Masukkan Semester") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+        Text(
+            text = errorState.semester ?: "",
+            color = Color.Red
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Jenis Kelamin")
+        Text(text = "Jenis Matakuliah")
         Row (
             modifier = Modifier.fillMaxWidth()
         ){
-            jenisMk.forEach { jmk ->
+            jenisMk.forEach { jenisMk ->
                 Row (
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ){
                     RadioButton(
-                        selected = matakuliahEvent.jenisMk == jmk,
+                        selected = matakuliahEvent.jenisMk == jenisMk,
                         onClick = {
-                            onValueChange(matakuliahEvent.copy(jenisMk = jmk))
+                            onValueChange(matakuliahEvent.copy(jenisMk = jenisMk))
                         },
                     )
-                    Text(text = jmk)
+                    Text(text = jenisMk)
                 }
             }
         }
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = matakuliahEvent.dosenPengampu,
+            onValueChange = {
+                onValueChange(matakuliahEvent.copy(dosenPengampu = it))
+            },
+            label = { Text("Dosen Pengampu") },
+            isError = errorState.dosenPengampu != null,
+            placeholder = { Text("Masukkan Dosen Pengampu") },
+        )
+        Text(
+            text = errorState.dosenPengampu ?: "",
+            color = Color.Red
+        )
     }
 }

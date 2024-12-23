@@ -63,7 +63,7 @@ fun PengelolaHalaman(
             )
         ){
             val kodeMk = it.arguments?.getString(DestinasiDetail.KODEMK)
-            kodeMk?.let { nim ->
+            kodeMk?.let { kodeMk ->
                 DetailMatakuliahView(
                     onBack = {
                         navController.popBackStack()

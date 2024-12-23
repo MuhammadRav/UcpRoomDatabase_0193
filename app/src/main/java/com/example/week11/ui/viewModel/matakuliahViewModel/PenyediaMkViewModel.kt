@@ -11,7 +11,7 @@ object PenyediaMatakuliahViewModel{
     val Factory = viewModelFactory {
         initializer {
             MatakuliahViewModel(
-                KrsApp().containerApp.repoMatakuliah
+                krsApp().containerApp.repoMatakuliah
             )
         }
         initializer {

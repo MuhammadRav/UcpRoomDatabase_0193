@@ -1,11 +1,11 @@
-package com.example.week11.ui.viewModel.matakuliahViewModel
+package com.example.week11.ui.viewModel.dosenViewModel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.week11.data.entity.Matakuliah
-import com.example.week11.repository.RepoMatakuliah
-import com.example.week11.ui.navigation.DestinasiDetailMk
+import com.example.week11.data.entity.Dosen
+import com.example.week11.repository.RepoDosen
+import com.example.week11.ui.navigation.DestinasiDetailDosen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,29 +14,28 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 data class  DetailUiState(
-    val detailUiEvent: MatakuliahEvent = MatakuliahEvent(),
+    val detailUiEvent: DosenEvent = DosenEvent(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String = ""
 ){
     val isUiEventEmpty: Boolean
-        get() = detailUiEvent == MatakuliahEvent()
+        get() = detailUiEvent == DosenEvent()
 
     val isUiEventNotEmpty: Boolean
-        get() = detailUiEvent != MatakuliahEvent()
+        get() = detailUiEvent != DosenEvent()
 }
 
-class DetailMatakuliahViewModel (
+class DetailDosenViewModel (
     savedStateHandle: SavedStateHandle,
-    private val repoMatakuliah: RepoMatakuliah,
+    private val repoDosen: RepoDosen,
 
     ) : ViewModel() {
-    private val _kodeMk: String = checkNotNull(savedStateHandle[DestinasiDetailMk.KODEMK])
+    private val _nidn: String = checkNotNull(savedStateHandle[DestinasiDetailDosen.NIDN])
 
-    val detailUiState: StateFlow<DetailUiState> = repoMatakuliah.getMatakuliah(_kodeMk)
+    val detailUiState: StateFlow<DetailUiState> = repoDosen.getDosen(_nidn)
         .filterNotNull()
         .map {
             DetailUiState(
@@ -64,22 +63,12 @@ class DetailMatakuliahViewModel (
                 isLoading = true,
             ),
         )
-    fun deleteMatakuliah(){
-        detailUiState.value.detailUiEvent.toMatakuliahEntity().let{
-            viewModelScope.launch {
-                repoMatakuliah.deleteMatakuliah(it)
-            }
-        }
-    }
 }
 
-fun Matakuliah.toDetailUiEvent(): MatakuliahEvent {
-    return MatakuliahEvent(
-        kodeMk = kodeMk,
-        namaMk = namaMk,
-        sks = sks,
-        semester = semester,
-        jenisMk = jenisMk,
-        dosenPengampu = dosenPengampu
+fun Dosen.toDetailUiEvent(): DosenEvent {
+    return DosenEvent(
+        nidn = nidn,
+        nama = nama,
+        jenisKelamin = jenisKelamin,
     )
 }

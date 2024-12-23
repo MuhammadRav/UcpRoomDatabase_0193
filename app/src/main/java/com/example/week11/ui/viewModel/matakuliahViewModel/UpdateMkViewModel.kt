@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.week11.data.entity.Matakuliah
 import com.example.week11.repository.RepoMatakuliah
-import com.example.week11.ui.navigation.DestinasiUpdate
+import com.example.week11.ui.navigation.DestinasiUpdateMk
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class UpdateMatakuliahViewModel (
     var updateUIState by mutableStateOf(MatakuliahUIState())
         private set
 
-    private val _kodeMk: String = checkNotNull(savedStateHandle[DestinasiUpdate.KODEMK])
+    private val _kodeMk: String = checkNotNull(savedStateHandle[DestinasiUpdateMk.KODEMK])
 
     init{
         viewModelScope.launch {

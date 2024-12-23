@@ -21,15 +21,15 @@ fun PengelolaHalaman(
 ){
     NavHost(
         navController = navController,
-        startDestination = DestinasiHome.route,
+        startDestination = DestinasiHomeMk.route,
         modifier = modifier
     ) {
         composable(
-            route = DestinasiHome.route
+            route = DestinasiHomeMk.route
         ) {
             HomeMatakuliahView(
                 onDetailClick = { kodeMk ->
-                    navController.navigate("${DestinasiDetail.route}/$kodeMk")
+                    navController.navigate("${DestinasiDetailMk.route}/$kodeMk")
                     println(
                         "Pengelola Halaman: kodeMk = $kodeMk"
                     )
@@ -55,21 +55,21 @@ fun PengelolaHalaman(
         }
 
         composable(
-            DestinasiDetail.routesWithArg,
+            DestinasiDetailMk.routesWithArg,
             arguments = listOf(
-                navArgument(DestinasiDetail.KODEMK){
+                navArgument(DestinasiDetailMk.KODEMK){
                     type = NavType.StringType
                 }
             )
         ){
-            val kodeMk = it.arguments?.getString(DestinasiDetail.KODEMK)
+            val kodeMk = it.arguments?.getString(DestinasiDetailMk.KODEMK)
             kodeMk?.let { kodeMk ->
                 DetailMatakuliahView(
                     onBack = {
                         navController.popBackStack()
                     },
                     onEditClick = {
-                        navController.navigate("${DestinasiUpdate.route}/$it")
+                        navController.navigate("${DestinasiUpdateMk.route}/$it")
                     },
                     modifier = modifier,
                     onDeleteClick = {
@@ -79,9 +79,9 @@ fun PengelolaHalaman(
             }
         }
         composable(
-            DestinasiUpdate.routesWithArg,
+            DestinasiUpdateMk.routesWithArg,
             arguments = listOf(
-                navArgument(DestinasiUpdate.KODEMK){
+                navArgument(DestinasiUpdateMk.KODEMK){
                     type = NavType.StringType
                 }
             )

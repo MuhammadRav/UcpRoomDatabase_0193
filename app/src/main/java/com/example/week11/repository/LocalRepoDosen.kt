@@ -2,6 +2,7 @@ package com.example.week11.repository
 
 import com.example.week11.data.dao.DosenDao
 import com.example.week11.data.entity.Dosen
+import com.example.week11.data.entity.Matakuliah
 import kotlinx.coroutines.flow.Flow
 
 class LocalRepoDosen(
@@ -12,5 +13,8 @@ class LocalRepoDosen(
     }
     override fun getAllDosen(): Flow<List<Dosen>> {
         return dosenDao.getAllDosen()
+    }
+    override fun getDosen(nidn: String): Flow<Dosen>{
+        return  dosenDao.getDosen(nidn)
     }
 }

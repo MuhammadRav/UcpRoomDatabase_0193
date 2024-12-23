@@ -226,14 +226,23 @@ fun FormMatakuliah(
                 }
             }
         }
-        DynamicSelectTextField(
-            selectedValue = chosenDropdown,
-            options = DosenDropDown.option.map { it.nama },
-            label = "Dosen Pengampu",
-            onValueChangedEvent = {
-                chosenDropdown = it
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = matakuliahEvent.dosenPengampu,
+            onValueChange = {
                 onValueChange(matakuliahEvent.copy(dosenPengampu = it))
             },
+            label = { Text("Dosen Pengampu") },
+            isError = errorState.dosenPengampu != null,
+            placeholder = { Text("Masukkan Dosen Pengampu")},
+//        DynamicSelectTextField(
+//            selectedValue = chosenDropdown,
+//            options = DosenDropDown.option.map { it.nama },
+//            label = "Dosen Pengampu",
+//            onValueChangedEvent = {
+//                chosenDropdown = it
+//                onValueChange(matakuliahEvent.copy(dosenPengampu = it))
+//            },
             )
         Text(
             text = errorState.dosenPengampu ?: "",

@@ -44,9 +44,10 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun HomeMatakuliahView(
+fun HomeDosenView(
     viewModel: HomeDosenViewModel = viewModel(factory = PenyediaDosenViewModel.Factory),
     onAddDosen: () -> Unit = { },
+    onDetailClick: (String) -> Unit = { },
     modifier: Modifier = Modifier
 ) {
     Scaffold(

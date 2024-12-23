@@ -8,7 +8,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.week11.ui.view.matakuliah.DestinasiInsert
+import com.example.week11.ui.view.dosen.DestinasiInsertDosen
+import com.example.week11.ui.view.dosen.DetailDosenView
+import com.example.week11.ui.view.dosen.HomeDosenView
+import com.example.week11.ui.view.dosen.InsertDosenView
+import com.example.week11.ui.view.matakuliah.DestinasiInsertMk
 import com.example.week11.ui.view.matakuliah.DetailMatakuliahView
 import com.example.week11.ui.view.matakuliah.HomeMatakuliahView
 import com.example.week11.ui.view.matakuliah.InsertMatakuliahView
@@ -21,9 +25,25 @@ fun PengelolaHalaman(
 ){
     NavHost(
         navController = navController,
-        startDestination = DestinasiHomeMk.route,
+        startDestination = DestinasiHomeDosen.route,
         modifier = modifier
     ) {
+        composable(
+            route = DestinasiHomeDosen.route
+        ) {
+            HomeDosenView(
+                onDetailClick = { nidn ->
+                    navController.navigate("${DestinasiDetailDosen.route}/$nidn")
+                    println(
+                        "Pengelola Halaman: NIDN = $nidn"
+                    )
+                },
+                onAddDosen = {
+                    navController.navigate(DestinasiInsertDosen.route)
+                },
+                modifier = modifier
+            )
+        }
         composable(
             route = DestinasiHomeMk.route
         ) {
@@ -35,13 +55,13 @@ fun PengelolaHalaman(
                     )
                 },
                 onAddMatakuliah = {
-                    navController.navigate(DestinasiInsert.route)
+                    navController.navigate(DestinasiInsertMk.route)
                 },
                 modifier = modifier
             )
         }
         composable(
-            route = DestinasiInsert.route
+            route = DestinasiInsertMk.route
         ){
             InsertMatakuliahView(
                 onBack = {
@@ -53,7 +73,36 @@ fun PengelolaHalaman(
                 modifier = modifier,
             )
         }
-
+        composable(
+            route = DestinasiInsertDosen.route
+        ){
+            InsertDosenView(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onNavigate = {
+                    navController.popBackStack()
+                },
+                modifier = modifier,
+            )
+        }
+        composable(
+            DestinasiDetailDosen.routesWithArg,
+            arguments = listOf(
+                navArgument(DestinasiDetailDosen.NIDN){
+                    type = NavType.StringType
+                }
+            )
+        ){
+            val nidn = it.arguments?.getString(DestinasiDetailDosen.NIDN)
+            nidn?.let { nidn ->
+                DetailDosenView(
+                    onBack = {
+                        navController.popBackStack()
+                    },
+                )
+            }
+        }
         composable(
             DestinasiDetailMk.routesWithArg,
             arguments = listOf(

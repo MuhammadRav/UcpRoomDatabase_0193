@@ -61,7 +61,7 @@ fun InsertBodyDosen(
         }
     }
 }
-object DestinasiInsert : AlamatNavigasi {
+object DestinasiInsertDosen : AlamatNavigasi {
     override val route: String = "insert_dosen"
 }
 
@@ -129,20 +129,6 @@ fun FormDosen(
     ){
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = dosenEvent.nama,
-            onValueChange = {
-                onValueChange(dosenEvent.copy(nama = it))
-            },
-            label = { Text("Nama") },
-            isError = errorState.nama != null,
-            placeholder = { Text("Masukkan nama") },
-        )
-        Text(
-            text = errorState.nama ?: "",
-            color = Color.Red
-        )
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
             value = dosenEvent.nidn,
             onValueChange = {
                 onValueChange(dosenEvent.copy(nidn = it))
@@ -154,6 +140,20 @@ fun FormDosen(
         )
         Text(
             text = errorState.nidn ?: "",
+            color = Color.Red
+        )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = dosenEvent.nama,
+            onValueChange = {
+                onValueChange(dosenEvent.copy(nama = it))
+            },
+            label = { Text("Nama") },
+            isError = errorState.nama != null,
+            placeholder = { Text("Masukkan Nama") },
+        )
+        Text(
+            text = errorState.nama ?: "",
             color = Color.Red
         )
         Spacer(modifier = Modifier.height(16.dp))

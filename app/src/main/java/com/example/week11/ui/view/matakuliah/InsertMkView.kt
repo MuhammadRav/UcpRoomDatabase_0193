@@ -35,7 +35,7 @@ import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahViewModel
 import com.example.week11.ui.viewModel.matakuliahViewModel.PenyediaMatakuliahViewModel
 import kotlinx.coroutines.launch
 
-object DestinasiInsert : AlamatNavigasi {
+object DestinasiInsertMk : AlamatNavigasi {
     override val route: String = "insert_mk"
 }
 

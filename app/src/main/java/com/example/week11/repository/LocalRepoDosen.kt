@@ -2,7 +2,6 @@ package com.example.week11.repository
 
 import com.example.week11.data.dao.DosenDao
 import com.example.week11.data.entity.Dosen
-import com.example.week11.data.entity.Matakuliah
 import kotlinx.coroutines.flow.Flow
 
 class LocalRepoDosen(

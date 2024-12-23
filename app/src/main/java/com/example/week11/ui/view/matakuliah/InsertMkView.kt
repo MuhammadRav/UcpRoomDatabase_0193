@@ -18,14 +18,19 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.week11.data.DosenDropDown
+import com.example.week11.data.entity.Dosen
 import com.example.week11.ui.costumwidget.CstTopAppBar
 import com.example.week11.ui.navigation.AlamatNavigasi
 import com.example.week11.ui.viewModel.matakuliahViewModel.MatakuliahEvent
@@ -44,23 +49,22 @@ fun InsertMatakuliahView(
     onBack: () -> Unit,
     onNavigate: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MatakuliahViewModel = viewModel(factory = PenyediaMatakuliahViewModel.Factory) // inisialisasi view model
+    viewModel: MatakuliahViewModel = viewModel(factory = PenyediaMatakuliahViewModel.Factory)
 ){
-    val uiState = viewModel.uiState // Ambil UI state dari view model
-    val snackbarHostState =  remember { SnackbarHostState() } // Snackbar state
+    val uiState = viewModel.uiState
+    val snackbarHostState =  remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    // Observasi perubahan snackBarMessage
     LaunchedEffect(uiState.snackBarMessage) {
         uiState.snackBarMessage?.let { message ->
             coroutineScope.launch {
-                snackbarHostState.showSnackbar(message) // tampilkan snackbar
+                snackbarHostState.showSnackbar(message)
                 viewModel.resetSnackBarMessage()
             }
         }
     }
     Scaffold (
         modifier = modifier,
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) } // Tampilkan Snackbar di Scaffold
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ){ padding ->
         Column(
             modifier = Modifier
@@ -73,15 +77,14 @@ fun InsertMatakuliahView(
                 showBackButton = true,
                 judul = "Tambah Matakuliah"
             )
-            // isi body
             InsertBodyMatakuliah(
                 uiState = uiState,
                 onValueChange = { updateEvent ->
-                    viewModel.updateState(updateEvent) // update state di view model
+                    viewModel.updateState(updateEvent)
                 },
                 onClick = {
                     coroutineScope.launch {
-                        viewModel.saveData() // simpan data
+                        viewModel.saveData()
                     }
                     onNavigate()
                 }
@@ -124,9 +127,13 @@ fun FormMatakuliah(
     matakuliahEvent: MatakuliahEvent = MatakuliahEvent(),
     onValueChange: (MatakuliahEvent) -> Unit,
     errorState: FormErrorState = FormErrorState(),
+    dosenList: List<Dosen> = emptyList(),
     modifier: Modifier = Modifier
 ){
     val jenisMk = listOf("Wajib", "Peminatan")
+    var chosenDropdown by remember { mutableStateOf("") }
+    val expanded = remember { mutableStateOf(false) }
+    val selectedDosen = remember { mutableStateOf(matakuliahEvent.dosenPengampu)}
 
     Column (
         modifier = modifier.fillMaxWidth()
@@ -208,16 +215,15 @@ fun FormMatakuliah(
                 }
             }
         }
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = matakuliahEvent.dosenPengampu,
-            onValueChange = {
+        DynamicSelectTextField(
+            selectedValue = chosenDropdown,
+            options = DosenDropDown.option.map { it.nama },
+            label = "Dosen Pengampu",
+            onValueChangedEvent = {
+                chosenDropdown = it
                 onValueChange(matakuliahEvent.copy(dosenPengampu = it))
             },
-            label = { Text("Dosen Pengampu") },
-            isError = errorState.dosenPengampu != null,
-            placeholder = { Text("Masukkan Dosen Pengampu") },
-        )
+            )
         Text(
             text = errorState.dosenPengampu ?: "",
             color = Color.Red

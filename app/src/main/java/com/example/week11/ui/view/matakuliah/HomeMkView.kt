@@ -1,13 +1,8 @@
 package com.example.week11.ui.view.matakuliah
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -15,15 +10,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,10 +19,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.week11.R
 import com.example.week11.data.entity.Matakuliah
 import com.example.week11.ui.costumwidget.CstTopAppBar
 import com.example.week11.ui.viewModel.matakuliahViewModel.HomeMatakuliahViewModel
@@ -49,14 +40,15 @@ fun HomeMatakuliahView(
     onAddMatakuliah: () -> Unit = { },
     onDetailClick: (String) -> Unit = { },
     modifier: Modifier = Modifier
-){
-    Scaffold (
+) {
+    Scaffold(
         topBar = {
             CstTopAppBar(
-                judul = "Buat Matakuliah",
+                judul = "Data Matakuliah",
                 showBackButton = false,
                 onBack = { },
-                modifier = modifier
+                modifier = modifier,
+                textColor = Color.White
             )
         },
         floatingActionButton = {
@@ -71,16 +63,23 @@ fun HomeMatakuliahView(
                 )
             }
         }
-    ){ innerPadding ->
+    ) { innerPadding ->
         val homeUiState by viewModel.homeUiState.collectAsState()
 
-        BodyHomeMatakuliahView(
-            homeUiState = homeUiState,
-            onClick = {
-                onDetailClick(it)
-            },
-            modifier = Modifier.padding(innerPadding)
-        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.zoro),
+                contentDescription = "Background",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            BodyHomeMatakuliahView(
+                homeUiState = homeUiState,
+                onClick = { onDetailClick(it) },
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
     }
 }
 
@@ -90,15 +89,15 @@ fun BodyHomeMatakuliahView(
     homeUiState: HomeUiState,
     onClick: (String) -> Unit = { },
     modifier: Modifier = Modifier
-){
+) {
     val coroutineScope = rememberCoroutineScope()
-    val snackbarHostState =  remember { SnackbarHostState() }
-    when{
+    val snackbarHostState = remember { SnackbarHostState() }
+    when {
         homeUiState.isLoading -> {
             Box(
                 modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 CircularProgressIndicator()
             }
         }
@@ -107,7 +106,7 @@ fun BodyHomeMatakuliahView(
             LaunchedEffect(homeUiState.errorMessage) {
                 homeUiState.errorMessage?.let { message ->
                     coroutineScope.launch {
-                        snackbarHostState.showSnackbar (message)
+                        snackbarHostState.showSnackbar(message)
                     }
                 }
             }
@@ -117,24 +116,21 @@ fun BodyHomeMatakuliahView(
             Box(
                 modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Text(
                     text = "Tidak ada data matakuliah.",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
+                    color = Color.White,
                     modifier = Modifier.padding(16.dp)
                 )
             }
         }
+
         else -> {
             ListMatakuliah(
                 listMatakuliah = homeUiState.listMatakuliah,
-                onClick = {
-                    onClick(it)
-                    println(
-                        it
-                    )
-                },
+                onClick = { onClick(it) },
                 modifier = modifier
             )
         }
@@ -146,10 +142,8 @@ fun ListMatakuliah(
     listMatakuliah: List<Matakuliah>,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = { }
-){
-    LazyColumn (
-        modifier = modifier
-    ){
+) {
+    LazyColumn(modifier = modifier) {
         items(
             items = listMatakuliah,
             itemContent = { mk ->
@@ -169,19 +163,17 @@ fun CardMK(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { }
 ) {
-    Card (
+    Card(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
-    ){
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Row (
+    ) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
@@ -190,10 +182,10 @@ fun CardMK(
                     fontSize = 20.sp
                 )
             }
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.DateRange, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
@@ -202,48 +194,48 @@ fun CardMK(
                     fontSize = 16.sp
                 )
             }
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.sks,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.semester,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.jenisMk,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Icon(imageVector = Icons.Filled.Person, contentDescription = "")
                 Spacer(modifier = Modifier.padding(4.dp))
                 Text(
                     text = mk.dosenPengampu,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }

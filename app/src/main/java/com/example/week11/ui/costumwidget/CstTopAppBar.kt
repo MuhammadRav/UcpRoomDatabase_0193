@@ -10,6 +10,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,13 +20,14 @@ fun CstTopAppBar(
     onBack: () -> Unit,
     showBackButton: Boolean = true,
     judul: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textColor: Color = Color.Black
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        contentAlignment = Alignment.Center // konten berada di tengah
+        contentAlignment = Alignment.Center
     ) {
         if (showBackButton) {
             Row(
@@ -36,16 +38,16 @@ fun CstTopAppBar(
                     onClick = onBack,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
-                    Text("Kembali")
+                    Text("Kembali", color = textColor)
                 }
                 Spacer(modifier = Modifier.weight(2f))
             }
         }
-        // Teks judul
         Text(
             text = judul,
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
+            color = textColor, // Terapkan warna teks
             modifier = Modifier.align(Alignment.Center)
         )
     }

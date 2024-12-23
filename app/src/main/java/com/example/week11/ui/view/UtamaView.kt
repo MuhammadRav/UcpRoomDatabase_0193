@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,101 +35,123 @@ fun Utama(
     onDosenButton: () -> Unit,
     onMatakuliahButton: () -> Unit,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Card for Dosen
-        Card(
-            shape = RoundedCornerShape(16.dp),
+        Image(
+            painter = painterResource(id = R.drawable.op),
+            contentDescription = "",
             modifier = Modifier
-                .fillMaxWidth()
-                .background(color = Color.Magenta),
+                .fillMaxSize()
+                .background(color = Color.Gray),
+            alpha = 0.3f
+        )
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+            Card(
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.Magenta)
             ) {
-                Image(
-                    painter = painterResource(R.drawable.logo),
-                    contentDescription = "Gambar Dosen",
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
-
-                Spacer(modifier = Modifier.padding(8.dp))
-
-                Box(
-                    modifier = Modifier
-                        .weight(1f),
-                    contentAlignment = Alignment.Center
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                    Image(
+                        painter = painterResource(R.drawable.dosen),
+                        contentDescription = "Gambar Dosen",
+                        modifier = Modifier
+                            .size(120.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+
+                    Spacer(modifier = Modifier.padding(8.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = "Dosen",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontSize = 18.sp,
-                        )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Button(
-                            onClick = { onDosenButton() },
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
                         ) {
-                            Text("Masuk")
+                            Text(
+                                text = "Dosen",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Button(
+                                onClick = { onDosenButton() },
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)
+                            ) {
+                                Text("Masuk", color = Color.DarkGray)
+                            }
                         }
                     }
                 }
             }
-        }
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = Color.Magenta),
-        ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+
+            Card(
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.Magenta)
             ) {
-                Image(
-                    painter = painterResource(R.drawable.logo),
-                    contentDescription = "Gambar Matakuliah",
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
-
-                Spacer(modifier = Modifier.padding(8.dp))
-
-                Box(
-                    modifier = Modifier.weight(1f),
-                    contentAlignment = Alignment.Center
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                    Image(
+                        painter = painterResource(R.drawable.buku),
+                        contentDescription = "Gambar Matakuliah",
+                        modifier = Modifier
+                            .size(130.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+
+                    Spacer(modifier = Modifier.padding(8.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = "Matakuliah",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontSize = 18.sp,
-                        )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Button(
-                            onClick = { onMatakuliahButton() },
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
                         ) {
-                            Text("Masuk")
+                            Text(
+                                text = "Matakuliah",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Button(
+                                onClick = { onMatakuliahButton() },
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
+                            ) {
+                                Text("Masuk", color = Color.DarkGray)
+                            }
                         }
                     }
                 }

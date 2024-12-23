@@ -98,7 +98,8 @@ fun InsertBodyMatakuliah(
     onClick: () -> Unit
 ){
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -106,7 +107,8 @@ fun InsertBodyMatakuliah(
             matakuliahEvent = uiState.matakuliahEvent,
             onValueChange = onValueChange,
             errorState = uiState.isEntryValid,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
         )
         Button(
             onClick = onClick,

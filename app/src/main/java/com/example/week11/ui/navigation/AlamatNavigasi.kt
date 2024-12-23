@@ -27,3 +27,6 @@ object DestinasiDetailDosen : AlamatNavigasi {
     const val NIDN = "nidn"
     val routesWithArg = "$route/{$NIDN}"
 }
+object Utama : AlamatNavigasi {
+    override val route = "utama"
+}

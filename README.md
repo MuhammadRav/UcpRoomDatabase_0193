@@ -1,4 +1,4 @@
-Link Vide : https://drive.google.com/drive/folders/1s1p_JXBROEmvPFHrFeMoJ3fiPtDZ1MWC?usp=sharing
+Link Video : https://drive.google.com/drive/folders/1s1p_JXBROEmvPFHrFeMoJ3fiPtDZ1MWC?usp=sharing
 
 ![utama](https://github.com/user-attachments/assets/abe2d016-02a8-45dc-9912-7e91d86fc199)
 ![home dosen](https://github.com/user-attachments/assets/c5e83504-2d59-4c47-b0c8-4ff237e6942d)

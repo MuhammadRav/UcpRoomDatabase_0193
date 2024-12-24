@@ -9,3 +9,4 @@
 ![edit matakuliah](https://github.com/user-attachments/assets/c5c28128-be17-40e6-b28f-a32ec69811a3)
 ![matakuliah setelah edit](https://github.com/user-attachments/assets/f3210efb-080c-47c4-966e-ec0c98135a0a)
 ![hapus data matakuliah](https://github.com/user-attachments/assets/553783ef-f72b-435e-9672-38967dad03df)
+![data dosen kosong](https://github.com/user-attachments/assets/ad5585f8-499a-4aeb-a428-47804bf8f93e)
